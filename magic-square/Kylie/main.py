@@ -6,8 +6,8 @@ def make_magic_square(n):
         magic_square = np.zeros(shape=(n,n))
         x = 0
         y = math.floor(n/2)
+
         for i in range(0+1, n**2+1):
-            
             if 0 <= x < n and 0 <= y < n:
                 magic_square[x][y] = i
 
@@ -22,15 +22,19 @@ def make_magic_square(n):
             elif x >= n and 0<= y <n:
                 x = 0 
                 magic_square[x][y] = i
+
             else:
                 x = n-1
                 y = 0
                 magic_square[x][y] = i
+          
             if i%n == 0:
                 x = x+1
+
             else:
                 x = x-1
                 y = y+1
+
         sum_value = sum(magic_square[0])
         diagonal_ascending = []
         diagonal_descending = []
@@ -44,24 +48,61 @@ def make_magic_square(n):
             print(magic_square)
 
     elif n%4==0:
-        ascending_matrix = np.array(range(0+1, n**2+1))
-        descending_matrix = np.array(range(n**2, 0, -1))
+        ascending_array = np.array(range(0+1, n**2+1))
+        descending_array = np.array(range(n**2, 0, -1))
 
-        ascending_matrix = np.reshape(ascending_matrix, (-1,n))
-        descending_matrix = np.reshape(descending_matrix, (-1,n))
+        ascending_matrix = np.reshape(ascending_array, (-1,n))
+        descending_matrix = np.reshape(descending_array, (-1,n))
 
         magic_square = np.zeros(shape=(n,n))
+        
         if n/4==1:
-            for i in range(0,n):
-                for j in range(0,n):
-                    if i == j or i+j == n:
-                        magic_square[i][j] = ascending_matrix[i][j]
+            for x in range(0,n):
+                for y in range(0,n):
+                    if x == y or x+y == n-1:
+                        magic_square[x][y] = ascending_matrix[x][y]
                     else:
-                        magic_square[i][j] = descending_matrix[i][j]        
+                        magic_square[x][y] = descending_matrix[x][y]        
             print(magic_square)
 
         elif n/4>1:
-            print('It is not yet')
+            origin_matrix = [[(n*y)+x+1 for x in range(n)]for y in range(n)]
+            origin_matrix = np.array(origin_matrix) 
+            
+            # print("origin matrix")
+            # print(origin_matrix)
+
+            # Corners of order (n/4)*(n/4)
+            # 1. Top left corner
+            for i in range(0,int(n/4)):
+                for j in range(0,int(n/4)):
+                    origin_matrix[i][j] = (n*n + 1) - origin_matrix[i][j]
+            
+            # 2. Top right corner
+            for i in range(0,int(n/4)):
+                for j in range(int(3 * (n/4)),n):
+                    origin_matrix[i][j] = (n*n + 1) - origin_matrix[i][j]
+        
+            # 3. Bottom Left corner
+            for i in range(int(3 * (n/4)),n):
+                for j in range(0,int(n/4)):
+                    origin_matrix[i][j] = (n*n + 1) - origin_matrix[i][j]
+            
+            # 4. Bottom Right corner
+            for i in range(int(3 * (n/4)),n):
+                for j in range(int(3 * (n/4)),n):
+                    origin_matrix[i][j] = (n*n + 1) - origin_matrix[i][j]
+                    
+            # 5. Centre of matrix,order (n/2)*(n/2)
+            for i in range(int(n/4),int(3 * (n/4))):
+                for j in range(int(n/4),int(3 * (n/4))):
+                    origin_matrix[i][j] = (n*n + 1) - origin_matrix[i][j]
+
+            # print("=====================================================")
+            # print("magic square matrix")
+            magic_square = origin_matrix
+            print(magic_square)
+
     else:
         print('It is not yet')
 
