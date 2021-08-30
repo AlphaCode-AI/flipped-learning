@@ -7,75 +7,50 @@ def makeMagicSquare(n):
     if n % 2 == 1:
         makeOddSquare(n)
     elif n % 4 == 0:
-        makeQuadrupleMagicSquare(n)
+        makeQuadrupleSquare(n)
     else:
-        makeEvenMagicSquare(n)
+        makeEvenSquare(n)
 
     print("\nmagic number = ", int(n * (n ** 2 + 1) / 2))
 
-def makeEvenMagicSquare(n):
-    print()
+def makeEvenSquare(n):
+    print(n)
 
-
-def makeQuadrupleMagicSquare(n):
+def makeQuadrupleSquare(n):
     print(f"\ncreating {n} x {n} even magic square...")
 
     # step1. init ms1, ms2
+    share = n // 4
     arr = np.arange(1, n*n+1)
     ms1 = np.reshape(arr, (n, n))
     ms2 = np.reshape(-np.sort(-arr), (n, n))
-    row = 0
-    col = 0
 
-    # step2. init diagonal
-    while True:
-        # need next row?
-        if col == n:
-            col = 0
-            row += 1
+    # step2. init 4 corner (1:2:1)
+    top = ms1[:share, share:share*3]
+    bottom = ms1[share*3:share*4, share:share*3]
+    left = ms1[share:share*3:, :share]
+    right = ms1[share:share*3:, share*3:]
 
-        # invalid row?
-        if row == n:
-            break
+    top.fill(0)
+    bottom.fill(0)
+    left.fill(0)
+    right.fill(0)
 
-        # is diagonal?
-        if row == col or row == n-1-col:
-            ms2[row][col] = 0
-            col += 1
-            continue
+    leftTop = ms2[:share, :share]
+    rightTop = ms2[:share, share*3:]
+    leftBottom = ms2[share*3:, :share]
+    rightBottom = ms2[share*3:, share*3:]
+    center = ms2[share:share*3, share:share*3]
 
-        # normal case
-        ms1[row][col] = 0
-        col += 1
+    leftTop.fill(0)
+    rightTop.fill(0)
+    leftBottom.fill(0)
+    rightBottom.fill(0)
+    center.fill(0)
 
-    print("\n", ms1)
-    print("\n", ms2)
-    print("\n", ms1 + ms2)
-    #
-    # # step3. set values
-    # row = n - 1
-    # col = n - 1
-    # while True:
-    #     # invalid col?
-    #     if col < 0:
-    #         row -= 1
-    #         col = n - 1
-    #         continue
-    #
-    #     # invalid row?
-    #     if row < 0:
-    #         break
-    #
-    #     # exist value?
-    #     if ms[row][col] != 0:
-    #         col -= 1
-    #         continue
-    #
-    #     # set magic value
-    #     ms[row][col] = vector.pop(0)
-    #     col -= 1
-    #
-    # print("\n", ms)
+    print('\n', ms1)
+    print('\n', ms2)
+    print('\n', ms1 + ms2)
 
 def makeOddSquare(n):
     print(f"\ncreating {n} x {n} odd magic square...")
