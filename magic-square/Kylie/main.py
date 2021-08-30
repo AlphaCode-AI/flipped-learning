@@ -1,6 +1,26 @@
 import numpy as np
 import math
 
+
+def check(n ,magic_square=None):
+
+    if magic_square is not None:
+        sum_value = sum(magic_square[0])
+        diagonal_ascending = []
+        diagonal_descending = []
+
+        for i in range(0,n):
+            if sum_value == sum(magic_square[i]) and sum_value == sum(magic_square[:][i]):
+                diagonal_ascending.append(magic_square[i][i])
+                diagonal_descending.append(magic_square[i][(n-1)-i])
+
+        if sum(diagonal_ascending) == sum_value and sum(diagonal_descending) == sum_value:
+            print("magic square value is ({})".format(int(sum_value)))
+            print(" ")
+            print(magic_square.astype(int))
+    else:
+        print('It is not yet')
+
 def make_magic_square(n):
     if n%2==1:
         magic_square = np.zeros(shape=(n,n))
@@ -35,17 +55,8 @@ def make_magic_square(n):
                 x = x-1
                 y = y+1
 
-        sum_value = sum(magic_square[0])
-        diagonal_ascending = []
-        diagonal_descending = []
+        return magic_square, n
 
-        for i in range(0,n):
-            if sum_value == sum(magic_square[i]) and sum_value == sum(magic_square[:][i]):
-                diagonal_ascending.append(magic_square[i][i])
-                diagonal_descending.append(magic_square[i][(n-1)-i])
-
-        if sum(diagonal_ascending) == sum_value and sum(diagonal_descending) == sum_value:
-            print(magic_square)
 
     elif n%4==0:
         ascending_array = np.array(range(0+1, n**2+1))
@@ -63,8 +74,9 @@ def make_magic_square(n):
                         magic_square[x][y] = ascending_matrix[x][y]
                     else:
                         magic_square[x][y] = descending_matrix[x][y]        
-            print(magic_square)
-
+            # magic_square.astype(int)
+            # print(magic_square.astype(int))
+            return magic_square, n
         elif n/4>1:
             origin_matrix = [[(n*y)+x+1 for x in range(n)]for y in range(n)]
             origin_matrix = np.array(origin_matrix) 
@@ -101,14 +113,20 @@ def make_magic_square(n):
             # print("=====================================================")
             # print("magic square matrix")
             magic_square = origin_matrix
-            print(magic_square)
+
+            return magic_square, n
+            # print(magic_square)
 
     else:
-        print('It is not yet')
+        
+        return None, None
 
 def main(args):
     number = args.number
-    make_magic_square(n=int(number))
+    magic_square, n = make_magic_square(n=int(number))
+    # print(magic_square)
+    # print(n)
+    check(n, magic_square)
 
 if __name__ == '__main__':
     import argparse
