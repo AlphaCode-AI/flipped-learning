@@ -1,0 +1,8 @@
+pandas
+numpy
+sklearn
+joblib
+coloredlogs
+google-cloud-storage
+google-cloud-bigquery
+openpyxl
