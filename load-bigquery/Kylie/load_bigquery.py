@@ -29,7 +29,7 @@ def load_gcs_to_bigquery(client, uri, table_id):
     return load_job.result()  
 
 
-def load_bigquery_to_excel_sheets(INPUT_DATA_PATH, OUTPUT_DATA_PATH, PROJECT_ID, GOOGLE_SERVICE_ACCOUNT_FILE, GCS_BUCKET, BIG_QUERY_DATASET, BIG_QUERY_TABLE, MULTI_SHEET=False):
+def load_bigquery_from_excel_sheets(INPUT_DATA_PATH, OUTPUT_DATA_PATH, PROJECT_ID, GOOGLE_SERVICE_ACCOUNT_FILE, GCS_BUCKET, BIG_QUERY_DATASET, BIG_QUERY_TABLE, MULTI_SHEET=False):
     if MULTI_SHEET == True:
         dataframe_of_multi_sheet = pd.read_excel(
             INPUT_DATA_PATH, 
@@ -161,7 +161,7 @@ def main():
     BIG_QUERY_TABLE = "INVETORY" # BigQuery Table name / Name 
     MULTI_SHEET = False
 
-    load_bigquery_to_excel_sheets(
+    load_bigquery_from_excel_sheets(
         INPUT_DATA_PATH, 
         OUTPUT_DATA_PATH, 
         PROJECT_ID, 
